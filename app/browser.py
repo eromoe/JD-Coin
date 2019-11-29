@@ -103,23 +103,16 @@ class MobileBrowser(QWebEngineView):
         code = None
 
         if host == 'plogin.m.jd.com':
+            print("plogin.m.jd.com")
             code = """
-            $('#username').val('{username}');
-            $('#password').val('{password}');
-            
-            if ({auto_submit}) {{
-                //等待页面加载，再切换为密码登陆
-                setTimeout(function() {{
-                    //切换为密码登陆
-                    if($('.txt-planBLogin').text() == '账号密码登录'){{
-                        $('.txt-planBLogin').click();
-                    }}
-                    $('#loginBtn').addClass('btn-active');
-                    $('#loginBtn').click();
-                }}, 2000);
-            }} else {{
-                $('#username').focus();
-            }}
+            //改成原生js写法
+               document.getElementById("username").value='{username}'
+                document.getElementById("pwd").value='{password}'
+            setTimeout(function () {{
+                var login = document.getElementsByClassName("btn J_ping")
+                login[0].className="btn J_ping btn-active"
+                login[0].click()
+            }}, 3000)
             """
 
         elif host == 'passport.jd.com':
