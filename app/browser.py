@@ -20,7 +20,7 @@ logging.basicConfig(format=log_format, level=logging.INFO)
 
 # 过滤掉一些不需要的 Qt WebEngine 日志输出
 # https://stackoverflow.com/questions/35894171/redirect-qdebug-output-to-file-with-pyqt5
-QtCore.qInstallMessageHandler(lambda *args: None)
+# QtCore.qInstallMessageHandler(lambda *args: None)
 
 APP = None
 
@@ -104,16 +104,32 @@ class MobileBrowser(QWebEngineView):
 
         if host == 'plogin.m.jd.com':
             print("plogin.m.jd.com")
+            # var head_div = document.getElementsByTagName('head')
+            # var head_new = head_div[0].innerHTML + "<script src='http://code.jquery.com/jquery-migrate-1.2.1.min.js'></script>"
+            # head_div[0].innerHTML = head_new
             code = """
-            //改成原生js写法
-               document.getElementById("username").value='{username}'
-                document.getElementById("pwd").value='{password}'
-            setTimeout(function () {{
-                var login = document.getElementsByClassName("btn J_ping")
-                login[0].className="btn J_ping btn-active"
-                login[0].click()
-            }}, 3000)
+            var username = document.getElementById("username")
+            var userValue = '{username}'
+            username.value = userValue
+            
+            var password = document.getElementById("pwd")
+            // password.focus()
+            password.value='{password}'
+            //改成原生js写法 todo 在此处歇菜了,啊啊啊
+            if ({auto_submit}) {{
+                setTimeout(function () {{
+                    username.value = userValue
+                    var login = document.getElementsByClassName('btn J_ping')
+                    login[0].className='btn J_ping btn-active hh'
+                    login[0].disabled = false
+                    login[0].text="ceshi"
+                    login[0].click()
+                    alert("click over"+login[0].className+" "+login[0]+" "+username.value)
+                }}, 3000)
+            }}
             """
+            code = code.format_map(config.jd)
+            self.page().runJavaScript(code)
 
         elif host == 'passport.jd.com':
             code = """
@@ -129,8 +145,6 @@ class MobileBrowser(QWebEngineView):
                 }}, 2000);
             }}
             """
-
-        if code:
             code = code.format_map(config.jd)
             self.page().runJavaScript(code)
 
