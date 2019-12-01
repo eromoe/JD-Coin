@@ -2,4 +2,3 @@ PyQt5
 pyquery
 requests
 PyQtWebEngine
-PyUserInput
