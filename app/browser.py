@@ -120,11 +120,9 @@ class MobileBrowser(QWebEngineView):
                 setTimeout(function () {{
                     username.value = userValue
                     var login = document.getElementsByClassName('btn J_ping')
-                    login[0].className='btn J_ping btn-active hh'
+                    login[0].className='btn J_ping btn-active'
                     login[0].disabled = false
-                    login[0].text="ceshi"
                     login[0].click()
-                    alert("click over"+login[0].className+" "+login[0]+" "+username.value)
                 }}, 3000)
             }}
             """
